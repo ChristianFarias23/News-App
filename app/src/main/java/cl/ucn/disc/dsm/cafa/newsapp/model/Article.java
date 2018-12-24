@@ -17,12 +17,14 @@ public class Article {
      * PK
      */
     @PrimaryKey(autoGenerate = true)
+    @Getter
+    @Setter
     private int id;
 
     /**
      * La fuente del articulo.
      */
-    @Embedded
+    @Embedded(prefix = "src_")
     @Getter
     @Setter
     private Source source;

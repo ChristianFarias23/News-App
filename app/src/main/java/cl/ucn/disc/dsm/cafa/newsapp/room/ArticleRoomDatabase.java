@@ -1,9 +1,12 @@
 package cl.ucn.disc.dsm.cafa.newsapp.room;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import cl.ucn.disc.dsm.cafa.newsapp.dao.ArticleDao;
 import cl.ucn.disc.dsm.cafa.newsapp.model.Article;
@@ -21,10 +24,41 @@ public abstract class ArticleRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ArticleRoomDatabase.class, "word_database")
+                            .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
             }
         }
         return INSTANCE;
+    }
+
+    private static RoomDatabase.Callback sRoomDatabaseCallback =
+            new RoomDatabase.Callback(){
+
+                @Override
+                public void onOpen (@NonNull SupportSQLiteDatabase db){
+                    super.onOpen(db);
+                    new PopulateDbAsync(INSTANCE).execute();
+                }
+            };
+
+    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
+
+        private final ArticleDao dao;
+
+        PopulateDbAsync(ArticleRoomDatabase db) {
+            dao = db.articleDao();
+        }
+
+        @Override
+        protected Void doInBackground(final Void... params) {
+            dao.deleteAll();
+
+            Article a1 = new Article();
+            a1.setTitle("Este es un titulo de ejemplo");
+
+            dao.insert(a1);
+            return null;
+        }
     }
 }
