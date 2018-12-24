@@ -2,6 +2,9 @@ package cl.ucn.disc.dsm.cafa.newsapp.model;
 
 import lombok.Getter;
 
+/**
+ * Clase que representa la fuente de un articulo.
+ */
 public class Source {
 
     /**

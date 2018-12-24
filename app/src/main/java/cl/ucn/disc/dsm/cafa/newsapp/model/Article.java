@@ -7,6 +7,9 @@ import android.arch.persistence.room.PrimaryKey;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Clase que representa un articulo (noticia) a mostrar en la app.
+ */
 @Entity(tableName = "article")
 public class Article {
 
