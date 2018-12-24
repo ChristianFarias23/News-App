@@ -1,11 +1,14 @@
 package cl.ucn.disc.dsm.cafa.newsapp.room;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +26,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         private final TextView title;
         private final TextView description;
         private final TextView publishedAt;
-
+        private final SimpleDraweeView image;
 
         private ArticleViewHolder(View itemView) {
             super(itemView);
@@ -31,6 +34,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             title = itemView.findViewById(R.id.tv_title);
             description = itemView.findViewById(R.id.tv_description);
             publishedAt = itemView.findViewById(R.id.tv_published_at);
+            image = itemView.findViewById(R.id.sdv_image);
         }
     }
 
@@ -69,6 +73,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                 }
             } else {
                 src = fuente;
+            }
+
+            // Mostrar la imagen usando fresco. (Solo si el articulo posee una url a la imagen!)
+            if (current.getUrlToImage() != null) {
+                Uri uri = Uri.parse(current.getUrlToImage());
+                holder.image.setImageURI(uri);
             }
 
 
