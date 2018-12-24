@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import cl.ucn.disc.dsm.cafa.newsapp.dao.ArticleDao;
 import cl.ucn.disc.dsm.cafa.newsapp.model.Article;
 
-@Database(entities = {Article.class}, version = 1)
+@Database(entities = {Article.class}, version = 1, exportSchema = false)
 public abstract class ArticleRoomDatabase extends RoomDatabase {
 
     public abstract ArticleDao articleDao();
@@ -52,12 +52,13 @@ public abstract class ArticleRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            dao.deleteAll();
+            // La base de datos inicia vacia la primera vez.
 
-            Article a1 = new Article();
-            a1.setTitle("Este es un titulo de ejemplo");
 
-            dao.insert(a1);
+            //Article a1 = new Article();
+            //a1.setTitle("Este es otro titulo");
+
+            //dao.insert(a1);
             return null;
         }
     }

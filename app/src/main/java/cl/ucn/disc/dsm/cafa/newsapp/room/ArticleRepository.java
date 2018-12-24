@@ -43,4 +43,6 @@ public class ArticleRepository {
             return null;
         }
     }
+
+    public int count(){ return articleDao.count();}
 }

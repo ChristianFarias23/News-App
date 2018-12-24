@@ -3,6 +3,7 @@ package cl.ucn.disc.dsm.cafa.newsapp.model;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +16,13 @@ public class Article {
 
     /**
      * PK
-     */
+     *
     @PrimaryKey(autoGenerate = true)
     @Getter
     @Setter
     private int id;
+    */
+
 
     /**
      * La fuente del articulo.
@@ -53,6 +56,8 @@ public class Article {
     /**
      * La direccion al articulo.
      */
+    @PrimaryKey
+    @NonNull
     @Getter
     @Setter
     private String url;
