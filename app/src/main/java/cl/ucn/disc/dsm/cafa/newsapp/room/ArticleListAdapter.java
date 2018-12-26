@@ -97,6 +97,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     static Locale localeES = new Locale("es", "ES");
     static SimpleDateFormat format = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy '-' HH:mm", localeES);
 
+    //FIXME
     public static String parsePublishedAt(String toParseDate) {
         Date date = null;
         try {

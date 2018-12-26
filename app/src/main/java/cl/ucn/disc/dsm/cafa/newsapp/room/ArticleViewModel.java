@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cl.ucn.disc.dsm.cafa.newsapp.controllers.NewsController;
@@ -86,6 +87,14 @@ public class ArticleViewModel extends AndroidViewModel {
                 Log.d("TAG", "-------------------");
             }
         });
+    }
+
+
+    /**
+     * Carga todos los articulos que estan en la base de datos
+     */
+    public void loadAllArticles(){
+        this.allArticles = repository.getAllArticles();
     }
 
 }

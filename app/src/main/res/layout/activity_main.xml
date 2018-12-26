@@ -6,11 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:theme="@style/OceanToolbar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_world"
+        app:title="@string/app_name"
+        app:subtitle="@string/app_name_logo"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/recyclerview_article" />
+
+    <TextView
+        android:id="@+id/tv_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        tools:listitem="@layout/recyclerview_article" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Cargando...."
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>
