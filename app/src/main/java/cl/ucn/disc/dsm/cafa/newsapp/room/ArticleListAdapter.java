@@ -28,27 +28,32 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         private final TextView publishedAt;
         private final SimpleDraweeView image;
 
-        private ArticleViewHolder(View itemView) {
+        private ArticleViewHolder(View itemView, View.OnClickListener clickListener) {
             super(itemView);
             author = itemView.findViewById(R.id.tv_author);
             title = itemView.findViewById(R.id.tv_title);
             description = itemView.findViewById(R.id.tv_description);
             publishedAt = itemView.findViewById(R.id.tv_published_at);
             image = itemView.findViewById(R.id.sdv_image);
+
+            itemView.setOnClickListener(clickListener);
         }
     }
 
     private final LayoutInflater inflater;
     private List<Article> articles; // Cached copy of words
+    private View.OnClickListener myClickListener;
 
-    public ArticleListAdapter(Context context) {
+
+    public ArticleListAdapter(Context context, View.OnClickListener clickListener) {
         inflater = LayoutInflater.from(context);
+        myClickListener = clickListener;
     }
 
     @Override
     public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.recyclerview_article, parent, false);
-        return new ArticleViewHolder(itemView);
+        return new ArticleViewHolder(itemView, myClickListener);
     }
 
     @Override
@@ -88,6 +93,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             holder.description.setText(current.getDescription());
             holder.publishedAt.setText(parsedDate);
 
+            // Podemos guardar lo que sea en el tag, asi que guardaremos la url del articulo.
+            holder.itemView.setTag(current.getUrl());
+
         } else {
             // Covers the case of data not being ready yet.
             holder.title.setText("No Article");
@@ -105,7 +113,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             return format.format(date);
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return toParseDate;
@@ -122,6 +130,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     public int getItemCount() {
         if (articles != null)
             return articles.size();
-        else return 0;
+        return 0;
     }
 }

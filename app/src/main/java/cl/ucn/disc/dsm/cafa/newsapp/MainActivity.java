@@ -2,6 +2,8 @@ package cl.ucn.disc.dsm.cafa.newsapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -28,6 +30,17 @@ import cl.ucn.disc.dsm.cafa.newsapp.room.ArticleViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Solucion propuesta aqui: https://stackoverflow.com/a/45711180
+    // (Lambda)
+    private View.OnClickListener myClickListener = view -> {
+        Log.d("Article URL: ", view.getTag().toString());
+        Uri uri = Uri.parse(view.getTag().toString());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+
+        Toast.makeText(this, "Abriendo enlace...", Toast.LENGTH_SHORT).show();
+    };
+
     private ArticleListAdapter adapter;
     private ArticleViewModel articleViewModel;
     private TextView emptyTextView;
@@ -44,9 +57,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Adapter
+        adapter = new ArticleListAdapter(this, myClickListener);
+
         // Recycler View
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        adapter = new ArticleListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -65,20 +80,17 @@ public class MainActivity extends AppCompatActivity {
                     emptyTextView.setText("Eso es todo por ahora.");
                 }else {
                     emptyTextView.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this, "Se cargaron "+adapter.getItemCount() + " noticias.", Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
-
-        Log.d("TAG","Created");
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.d("TAG","Started");
 
         // Intenta descargar articulos desde la api.
         articleViewModel.downloadArticles();
